@@ -2,6 +2,10 @@
 
 Go приложение для работы с бронированиями.
 
+## Развертывание
+
+Для настройки автоматической сборки и развертывания в Yandex Cloud см. [YANDEX_CLOUD_SETUP.md](YANDEX_CLOUD_SETUP.md).
+
 ## Переменные окружения
 
 Приложение использует следующие переменные окружения:
@@ -13,21 +17,6 @@ Go приложение для работы с бронированиями.
 | `UNSPOT_URL` | unspot URL | Нет |
 
 ## Использование с Docker
-
-### Публичный образ
-
-Доступен публичный Docker образ: `atamanvll/booker`
-
-```bash
-# Запуск контейнера с переменными окружения
-docker run -e UNSPOT_TOKEN="your_token_here" \
-           -e SPOT_ID="your_spot_id_here" \
-           -e UNSPOT_URL="https://your-unspot-instance.com" \
-           atamanvll/booker
-
-# Или с файлом .env
-docker run --env-file .env atamanvll/booker
-```
 
 ### Локальная сборка
 
