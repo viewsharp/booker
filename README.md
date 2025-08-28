@@ -2,39 +2,32 @@
 
 Go приложение для работы с бронированиями.
 
-## Автоматическая сборка Docker образа
+## Переменные окружения
 
-Приложение настроено для автоматической сборки и публикации Docker образа в Docker Hub при пуше в master/main ветку.
+Приложение использует следующие переменные окружения:
 
-### Настройка
+| Переменная | Описание | Обязательная |
+|------------|----------|--------------|
+| `UNSPOT_TOKEN` | Bearer токен с веб-страницы unspot | Да |
+| `SPOT_ID` | UUID места из unspot | Да |
+| `UNSPOT_URL` | unspot URL | Нет |
 
-1. **Создайте аккаунт в Docker Hub** (если еще нет): https://hub.docker.com/
+## Использование с Docker
 
-2. **Создайте репозиторий в Docker Hub** с именем, соответствующим вашему GitHub репозиторию (например, `username/booker`)
+### Публичный образ
 
-3. **Добавьте секреты в GitHub репозиторий**:
-   - Перейдите в Settings → Secrets and variables → Actions
-   - Добавьте следующие секреты:
-     - `DOCKER_USERNAME` - ваше имя пользователя в Docker Hub
-     - `DOCKER_PASSWORD` - ваш токен доступа Docker Hub (не пароль!)
+Доступен публичный Docker образ: `atamanvll/booker`
 
-### Получение Docker Hub токена
+```bash
+# Запуск контейнера с переменными окружения
+docker run -e UNSPOT_TOKEN="your_token_here" \
+           -e SPOT_ID="your_spot_id_here" \
+           -e UNSPOT_URL="https://your-unspot-instance.com" \
+           atamanvll/booker
 
-1. Войдите в Docker Hub
-2. Перейдите в Account Settings → Security
-3. Создайте новый Access Token
-4. Скопируйте токен и используйте его как `DOCKER_PASSWORD`
-
-### Использование
-
-После настройки, при каждом пуше в master/main ветку:
-- Автоматически собирается Docker образ
-- Образ публикуется в Docker Hub с тегами:
-  - `latest` - для master ветки
-  - `main` - для main ветки
-  - `v1.0.0` - для тегов релизов
-  - `1.0` - для мажорных версий
-  - `master-abc123` - для конкретных коммитов
+# Или с файлом .env
+docker run --env-file .env atamanvll/booker
+```
 
 ### Локальная сборка
 
@@ -42,13 +35,17 @@ Go приложение для работы с бронированиями.
 # Сборка образа
 docker build -t booker .
 
-# Запуск контейнера
-docker run booker
+# Запуск контейнера с переменными окружения
+docker run -e UNSPOT_TOKEN="your_token_here" \
+           -e SPOT_ID="your_spot_id_here" \
+           booker
 ```
 
-### Платформы
+### Пример файла .env
 
-Образ собирается для следующих платформ:
-- linux/amd64
-- linux/arm64
+```env
+UNSPOT_TOKEN=your_bearer_token_here
+SPOT_ID=your_spot_uuid_here
+UNSPOT_URL=https://your-unspot-instance.com
+```
 
