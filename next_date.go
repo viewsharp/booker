@@ -12,6 +12,9 @@ const IsDayOffUrl = "https://isdayoff.ru"
 func GetNextDate() (*time.Time, error) {
 	now := time.Now()
 	targetDate := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
+	if now.Hour() >= 12 {
+		targetDate = targetDate.AddDate(0, 0, 1)
+	}
 
 	for {
 		targetDate = targetDate.AddDate(0, 0, 1)
