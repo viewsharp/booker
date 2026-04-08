@@ -1,9 +1,8 @@
 package main
 
 import (
-	"errors"
+	"context"
 	"fmt"
-	"log"
 	"os"
 )
 
