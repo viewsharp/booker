@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"time"
+	"net/url"
 )
 
 // TimeRange represents the booking time range
@@ -48,8 +49,12 @@ func BookSeat(config Config, date time.Time) error {
 		return fmt.Errorf("marshal request body: %w", err)
 	}
 
-	url := fmt.Sprintf("%sapi/bookings/desk/new", config.UnspotURL)
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
+	s, err := url.JoinPath(config.UnspotURL, "/api/bookings/desk/new")
+	if err != nil {
+		return fmt.Errorf("join url: %w", err)
+	}
+
+	req, err := http.NewRequest("POST", s, bytes.NewBuffer(jsonData))
 	if err != nil {
 		return fmt.Errorf("create request: %w", err)
 	}
