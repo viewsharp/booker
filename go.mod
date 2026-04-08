@@ -1,3 +1,1 @@
-module booker
-
-go 1.23.6
+module github.com/viewsharp/booker
